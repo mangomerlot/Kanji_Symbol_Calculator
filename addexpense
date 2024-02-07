@@ -1,0 +1,38 @@
+import json
+
+# File to store expenses
+expenses_file = 'expenses.json'
+
+# Function to load existing expenses from the file
+def load_expenses():
+    try:
+        with open(expenses_file, 'r') as file:
+            return json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return []
+
+# Function to save expenses to the file
+def save_expenses(expenses):
+    with open(expenses_file, 'w') as file:
+        json.dump(expenses, file, indent=4)
+
+# Function to add a new expense
+def add_expense(amount, category, date):
+    # Load existing expenses
+    expenses = load_expenses()
+    # Append the new expense
+    expenses.append({
+        'amount': amount,
+        'category': category,
+        'date': date
+    })
+    # Save the updated list of expenses
+    save_expenses(expenses)
+    print("Expense added successfully.")
+
+# Example usage
+if __name__ == "__main__":
+    amount = float(input("Enter the expense amount: "))
+    category = input("Enter the expense category: ")
+    date = input("Enter the date of the expense (YYYY-MM-DD): ")
+    add_expense(amount, category, date)
